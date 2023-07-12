@@ -1,6 +1,6 @@
-package com.example.todoaws.dto;
+package com.example.todospringboot.dto;
 
-import com.example.todoaws.model.TodoEntity;
+import com.example.todospringboot.model.TodoEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.todoaws.dto;
+package com.example.todospringboot.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

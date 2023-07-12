@@ -1,7 +1,7 @@
-package com.example.todoaws.service;
+package com.example.todospringboot.service;
 
-import com.example.todoaws.model.TodoEntity;
-import com.example.todoaws.persistence.TodoRepository;
+import com.example.todospringboot.model.TodoEntity;
+import com.example.todospringboot.persistence.TodoRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

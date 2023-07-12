@@ -1,4 +1,4 @@
-package com.example.todoaws.model;
+package com.example.todospringboot.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

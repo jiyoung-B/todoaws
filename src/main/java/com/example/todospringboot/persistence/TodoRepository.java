@@ -1,8 +1,7 @@
-package com.example.todoaws.persistence;
+package com.example.todospringboot.persistence;
 
-import com.example.todoaws.model.TodoEntity;
+import com.example.todospringboot.model.TodoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

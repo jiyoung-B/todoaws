@@ -1,13 +1,13 @@
-package com.example.todoaws;
+package com.example.todospringboot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TodoawsApplication {
+public class TodospringbootApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(TodoawsApplication.class, args);
+        SpringApplication.run(TodospringbootApplication.class, args);
     }
 
 }

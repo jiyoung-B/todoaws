@@ -1,9 +1,9 @@
-package com.example.todoaws.controller;
+package com.example.todospringboot.controller;
 
-import com.example.todoaws.dto.ResponseDTO;
-import com.example.todoaws.dto.TodoDTO;
-import com.example.todoaws.model.TodoEntity;
-import com.example.todoaws.service.TodoService;
+import com.example.todospringboot.dto.ResponseDTO;
+import com.example.todospringboot.dto.TodoDTO;
+import com.example.todospringboot.model.TodoEntity;
+import com.example.todospringboot.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
