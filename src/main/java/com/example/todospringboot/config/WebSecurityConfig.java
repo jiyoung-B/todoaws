@@ -1,14 +1,14 @@
 package com.example.todospringboot.config;
 
 import com.example.todospringboot.security.JwtAuthenticationFilter;
+import com.example.todospringboot.security.OAuthSuccessHandler;
+import com.example.todospringboot.security.OAuthUserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.filter.CorsFilter;
 
 @EnableWebSecurity
@@ -16,6 +16,12 @@ import org.springframework.web.filter.CorsFilter;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    @Autowired
+    private OAuthUserServiceImpl oAuthUserService; // 우리가 만든 OAuthUserServiceImpl 추가
+
+    @Autowired
+    private OAuthSuccessHandler oAuthSuccessHandler; // Success Handler 추가
 
     @Override
     protected void configure(HttpSecurity http) throws  Exception{
@@ -27,9 +33,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // session 기반이 아님을 선언
             .and()
             .authorizeRequests() // /d와 /auth/** 경로는 인증 안 해도 됨.
-                .antMatchers("/", "/auth/**").permitAll()
+                .antMatchers("/", "/auth/**", "/oauth2/**").permitAll()
             .anyRequest() // ㅣ와 /auth/**이외의 모든 경로는 인증해야됨.
-                .authenticated();
+                .authenticated()
+            .and()
+                .oauth2Login() // oauth2Login 설정
+                .redirectionEndpoint()
+                // http://localhost:8080/oauth2/callback/*으로 들어오는 요청을 redirectionEndpoint에 설정된 곳으로 리디렉트하라는 뜻
+                //아무 설정도 하지 않은 경우에는 베이스 URL인 http://localhost:8080으로 리디렉트 한다.
+                .baseUri("/oauth2/callback/*") // callback uri 설정
+            .and()
+                .userInfoEndpoint()
+                .userService(oAuthUserService) // OAuthUserServiceImpl를 유저 서비스로 등록
+            .and()
+                    .successHandler(oAuthSuccessHandler); // Success Handler 등록
+
 
 
         // filter 등록.
