@@ -20,8 +20,10 @@ public class OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         TokenProvider tokenProvider = new TokenProvider();
         String token = tokenProvider.create(authentication);
 
-        response.getWriter().write(token);
+//        response.getWriter().write(token);
         log.info("token {}", token);
+        response.sendRedirect("http://localhost:3000/sociallogin?token=" + token);
+        // 리디렉트하면서 토큰 전달하기 -> ui는 토큰 받아주는 sociallogin이라는 페이지 만들기
     }
 
 }
