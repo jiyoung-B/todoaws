@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.web.filter.CorsFilter;
 
 @EnableWebSecurity
@@ -42,11 +43,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // http://localhost:8080/oauth2/callback/*으로 들어오는 요청을 redirectionEndpoint에 설정된 곳으로 리디렉트하라는 뜻
                 //아무 설정도 하지 않은 경우에는 베이스 URL인 http://localhost:8080으로 리디렉트 한다.
                 .baseUri("/oauth2/callback/*") // callback uri 설정
+                .and()
+                .authorizationEndpoint()
+                .baseUri("/auth/authorize") // OAuth 2.0 흐름 시작을 위한 엔드포인트 추가
             .and()
                 .userInfoEndpoint()
                 .userService(oAuthUserService) // OAuthUserServiceImpl를 유저 서비스로 등록
             .and()
-                    .successHandler(oAuthSuccessHandler); // Success Handler 등록
+                    .successHandler(oAuthSuccessHandler) // Success Handler 등록
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(new Http403ForbiddenEntryPoint()); // Http403Forbidden EntryPoint 추가
+                // 인증되지 않은 사용자를 처리하기 위한 시작점
+
 
 
 
