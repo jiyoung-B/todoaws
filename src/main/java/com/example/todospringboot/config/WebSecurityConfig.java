@@ -3,12 +3,14 @@ package com.example.todospringboot.config;
 import com.example.todospringboot.security.JwtAuthenticationFilter;
 import com.example.todospringboot.security.OAuthSuccessHandler;
 import com.example.todospringboot.security.OAuthUserServiceImpl;
+import com.example.todospringboot.security.RedirectUrlCookieFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.web.filter.CorsFilter;
 
@@ -23,6 +25,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private OAuthSuccessHandler oAuthSuccessHandler; // Success Handler 추가
+
+    @Autowired
+    private RedirectUrlCookieFilter redirectUrlFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws  Exception{
@@ -64,6 +69,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // CorsFilter 실행한 후에
         // jwtAuthenticationFilter 실행한다.
         http.addFilterAfter(jwtAuthenticationFilter, CorsFilter.class);
+
+        //
+        http.addFilterBefore( // Before
+                redirectUrlFilter,
+                OAuth2AuthorizationRequestRedirectFilter.class // 리디렉트되기 전에 필터 실행
+        );
     }
 
 
